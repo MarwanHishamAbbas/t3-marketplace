@@ -122,7 +122,7 @@ export function HeaderMegaMenu() {
           </Link>
           {isSignedIn ? (
             <Group spacing={20}>
-              <Link href="/sell-item">
+              <Link href="/sell-an-item">
                 <Text>Sell an Item</Text>
               </Link>
               <UserButton afterSignOutUrl="/" />

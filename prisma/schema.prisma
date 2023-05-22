@@ -1,23 +1,19 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
-    provider        = "prisma-client-js"
-    previewFeatures = ["jsonProtocol"]
+  provider        = "prisma-client-js"
+  previewFeatures = ["jsonProtocol"]
 }
 
 datasource db {
-    provider = "sqlite"
-    url      = env("DATABASE_URL")
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
 }
 
 model Listing {
-    id          String   @id @default(cuid())
-    userId      String
-    username    String
-    createdAt   DateTime @default(now())
-    updatedAt   DateTime @updatedAt
-    name        String
-    description String
-    price       Float
+  id          String   @id @default(cuid())
+  userId      String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  name        String
+  description String
+  price       Float
 }
