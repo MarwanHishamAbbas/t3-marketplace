@@ -7,6 +7,7 @@ import {
   Button,
   rem,
   Badge,
+  Avatar,
 } from "@mantine/core";
 import Link from "next/link";
 import type { FC } from "react";
@@ -58,6 +59,7 @@ interface ItemCardProps {
   description: string;
   price: number;
   username: string;
+  userImage: string;
 }
 
 export const ItemCard: FC<ItemCardProps> = ({
@@ -66,13 +68,17 @@ export const ItemCard: FC<ItemCardProps> = ({
   description,
   price,
   username,
+  userImage,
 }) => {
   const { classes } = useStyles();
   const { isSignedIn } = useUser();
 
   return (
     <Card withBorder radius="md" className={classes.card}>
-      <Badge>{username}</Badge>
+      <Group>
+        <Avatar src={userImage} radius={"xl"} />
+        <Badge>{username}</Badge>
+      </Group>
       <Group position="apart" my={20}>
         <div>
           <Text fw={500}>{name}</Text>
