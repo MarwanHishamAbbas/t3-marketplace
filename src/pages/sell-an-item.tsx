@@ -1,22 +1,25 @@
 import { Box, Button, Text, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import type { NextPage } from "next";
+import { useRouter } from "next/navigation";
 import { type FormEvent, useState } from "react";
 import { api } from "~/utils/api";
 
+type SellItemForm = {
+  name: string;
+  description: string;
+  price: string;
+};
+
 const SellAnItem: NextPage = () => {
   const [loading, setIsLoading] = useState<boolean>(false);
-  type SellItemForm = {
-    name: string;
-    description: string;
-    price: number;
-  };
+  const router = useRouter();
 
   const form = useForm<SellItemForm>({
     initialValues: {
       name: "",
       description: "",
-      price: 0,
+      price: "",
     },
   });
 
@@ -28,8 +31,10 @@ const SellAnItem: NextPage = () => {
     try {
       createListings.mutate({
         ...form.values,
+        price: parseInt(form.values.price),
       });
       form.reset();
+      router.replace("/");
     } catch (error) {
       console.log(error);
     } finally {

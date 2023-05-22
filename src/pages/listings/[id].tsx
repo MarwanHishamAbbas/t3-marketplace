@@ -1,8 +1,18 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
-import { Text, Title } from "@mantine/core";
+import { clerkClient } from "@clerk/nextjs";
+import {
+  Badge,
+  Button,
+  Container,
+  Space,
+  Text,
+  Textarea,
+  Title,
+} from "@mantine/core";
 import { type NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
+import { Comment } from "~/components/layout/MessageCard";
 
 import { api } from "~/utils/api";
 
@@ -21,9 +31,20 @@ const ListingPage: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Title>{listing.data?.name}</Title>
-      <Text>{listing.data?.description}</Text>
-      <Text>$ {listing.data?.price}</Text>
+      <Container>
+        <Badge>@marwahiisham@gmail.com</Badge>
+        <Title>{listing.data?.name}</Title>
+        <Text>{listing.data?.description}</Text>
+        <Text>$ {listing.data?.price}</Text>
+        <form className="mt-20">
+          <Textarea placeholder="Leave a message" label="Your Message" />
+          <Button className="bg-blue-500" type="submit" mt="md">
+            Send
+          </Button>
+        </form>
+        <Space h={50} />
+        <Comment userId="ee" message="I'm a message" />
+      </Container>
     </>
   );
 };

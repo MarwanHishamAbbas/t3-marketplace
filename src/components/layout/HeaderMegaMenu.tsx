@@ -1,10 +1,4 @@
-import {
-  SignInButton,
-  SignUpButton,
-  UserButton,
-  useClerk,
-  useUser,
-} from "@clerk/nextjs";
+import { UserButton, useClerk, useUser } from "@clerk/nextjs";
 import {
   createStyles,
   Header,

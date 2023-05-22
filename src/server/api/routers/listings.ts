@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
+import clerkClient from "@clerk/clerk-sdk-node";
 import { z } from "zod";
 
 import {
@@ -16,12 +17,17 @@ export const listingsRouter = createTRPCRouter({
       z.object({ name: z.string(), description: z.string(), price: z.number() })
     )
     .mutation(async ({ input, ctx }) => {
+      const userData = await clerkClient.users.getUser(ctx.auth.userId);
       const listing = await ctx.prisma.listing.create({
         data: {
           ...input,
+          price: input.price,
           userId: ctx.auth.userId,
+          username: userData.firstName,
+          userImage: userData.profileImageUrl,
         },
       });
+      console.log(listing);
 
       return listing;
     }),
@@ -31,6 +37,9 @@ export const listingsRouter = createTRPCRouter({
   get: publicProcedure
     .input(z.object({ listingId: z.string() }))
     .query(({ input, ctx }) => {
-      return ctx.prisma.listing.findUnique({ where: { id: input.listingId } });
+      const listing = ctx.prisma.listing.findUnique({
+        where: { id: input.listingId },
+      });
+      return listing;
     }),
 });

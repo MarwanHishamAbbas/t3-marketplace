@@ -1,4 +1,13 @@
-import { Card, Text, Group, createStyles, Button, rem } from "@mantine/core";
+import { useUser } from "@clerk/nextjs";
+import {
+  Card,
+  Text,
+  Group,
+  createStyles,
+  Button,
+  rem,
+  Badge,
+} from "@mantine/core";
 import Link from "next/link";
 import type { FC } from "react";
 
@@ -48,6 +57,7 @@ interface ItemCardProps {
   name: string;
   description: string;
   price: number;
+  username: string;
 }
 
 export const ItemCard: FC<ItemCardProps> = ({
@@ -55,11 +65,14 @@ export const ItemCard: FC<ItemCardProps> = ({
   name,
   description,
   price,
+  username,
 }) => {
   const { classes } = useStyles();
+  const { isSignedIn } = useUser();
 
   return (
     <Card withBorder radius="md" className={classes.card}>
+      <Badge>{username}</Badge>
       <Group position="apart" my={20}>
         <div>
           <Text fw={500}>{name}</Text>
@@ -73,12 +86,13 @@ export const ItemCard: FC<ItemCardProps> = ({
           <Text fz="xl" fw={700} sx={{ lineHeight: 1 }}>
             ${price}
           </Text>
-
-          <Link href={`/listings/${id}`}>
-            <Button className="bg-blue-500" radius="lg">
-              Buy Now
-            </Button>
-          </Link>
+          {isSignedIn && (
+            <Link href={`/listings/${id}`}>
+              <Button className="bg-blue-500" radius="lg">
+                Buy Now
+              </Button>
+            </Link>
+          )}
         </Group>
       </Card.Section>
     </Card>
