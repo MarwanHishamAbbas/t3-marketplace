@@ -25,4 +25,12 @@ export const listingsRouter = createTRPCRouter({
 
       return listing;
     }),
+  list: publicProcedure.query(({ ctx }) => {
+    return ctx.prisma.listing.findMany();
+  }),
+  get: publicProcedure
+    .input(z.object({ listingId: z.string() }))
+    .query(({ input, ctx }) => {
+      return ctx.prisma.listing.findUnique({ where: { id: input.listingId } });
+    }),
 });

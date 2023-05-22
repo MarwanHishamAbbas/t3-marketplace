@@ -1,7 +1,7 @@
-import { Box, Button, TextInput } from "@mantine/core";
+import { Box, Button, Text, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import type { NextPage } from "next";
-import { FormEvent, useState } from "react";
+import { type FormEvent, useState } from "react";
 import { api } from "~/utils/api";
 
 const SellAnItem: NextPage = () => {
@@ -23,10 +23,12 @@ const SellAnItem: NextPage = () => {
   const createListings = api.listings.create.useMutation();
   const listItemHandler = (e: FormEvent) => {
     e.preventDefault();
-
     setIsLoading(true);
+    console.log({ ...form.values });
     try {
-      createListings.mutate({ ...form.values });
+      createListings.mutate({
+        ...form.values,
+      });
       form.reset();
     } catch (error) {
       console.log(error);
@@ -37,19 +39,25 @@ const SellAnItem: NextPage = () => {
 
   return (
     <Box maw={400} mx="auto">
+      <Text size={50} align="center" mb={"xl"} weight={500}>
+        Sell An Item
+      </Text>
       <form onSubmit={listItemHandler}>
         <TextInput
+          required
           label="Name"
           placeholder="Item Name"
           {...form.getInputProps("name")}
         />
         <TextInput
-          label="Item Description"
+          required
+          label="Description"
           placeholder="Description"
           mt="md"
           {...form.getInputProps("description")}
         />
         <TextInput
+          required
           type="number"
           label="Price"
           placeholder="Item Price"

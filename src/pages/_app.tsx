@@ -6,6 +6,8 @@ import "~/styles/globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Container, MantineProvider } from "@mantine/core";
 import { HeaderMegaMenu } from "~/components/layout/HeaderMegaMenu";
+import { Footer } from "~/components/layout/Footer";
+import { data } from "~/components/constants/data";
 
 const MyApp: AppType = ({ Component, pageProps }) => {
   return (
@@ -21,6 +23,7 @@ const MyApp: AppType = ({ Component, pageProps }) => {
           <HeaderMegaMenu />
           <Component {...pageProps} />
         </Container>
+        <Footer data={data} />
       </ClerkProvider>
     </MantineProvider>
   );
