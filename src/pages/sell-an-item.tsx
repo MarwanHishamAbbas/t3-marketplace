@@ -27,7 +27,6 @@ const SellAnItem: NextPage = () => {
   const listItemHandler = (e: FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    console.log({ ...form.values });
     try {
       createListings.mutate({
         ...form.values,

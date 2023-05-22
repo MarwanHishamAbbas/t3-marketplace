@@ -19,17 +19,17 @@ const useStyles = createStyles((theme) => ({
 }));
 
 interface CommentHtmlProps {
-  userId: string;
   message: string;
+  fromUsername: string;
 }
 
-export function Comment({ userId, message }: CommentHtmlProps) {
+export function Comment({ message, fromUsername }: CommentHtmlProps) {
   const { classes } = useStyles();
   return (
     <Paper withBorder radius="md" className={classes.comment}>
       <Group>
         <div>
-          <Text fz="sm">{userId}</Text>
+          <Text fz="sm">{fromUsername}</Text>
           <Text fz="xs" c="dimmed">
             {message}
           </Text>

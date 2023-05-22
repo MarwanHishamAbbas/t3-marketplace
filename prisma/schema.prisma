@@ -24,7 +24,6 @@ model Listing {
 
 model Message {
   id           String  @id @default(cuid())
-  toUsername   String
   fromUsername String
   content      String
   listingId    String

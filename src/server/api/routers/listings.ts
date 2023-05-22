@@ -3,6 +3,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 import clerkClient from "@clerk/clerk-sdk-node";
+import { Message } from "@prisma/client";
 import { z } from "zod";
 
 import {
@@ -42,4 +43,20 @@ export const listingsRouter = createTRPCRouter({
       });
       return listing;
     }),
+  sendMessage: protectedProcedure
+    .input(z.object({ content: z.string(), listingId: z.string() }))
+    .mutation(async ({ input, ctx }) => {
+      const userData = await clerkClient.users.getUser(ctx.auth.userId);
+
+      return await ctx.prisma.message.create({
+        data: {
+          content: input.content,
+          fromUsername: userData?.firstName as string,
+          listingId: input.listingId,
+        },
+      });
+    }),
+  getMessages: publicProcedure.query(({ ctx }) => {
+    return ctx.prisma.message.findMany();
+  }),
 });
